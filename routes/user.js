@@ -1,45 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user.js");
 const passport = require("passport");
 const wrapAsync = require("../utils/wrapAsync.js");
+const { saveRedirectUrl } = require("../middleware.js");
+const userController = require("../controllers/user.js");
 
-router.get("/signup", (req, res) => {
-    res.render("users/signup.ejs");
-});
+//signup route
+router
+  .route("/signup")
+  .get(userController.renderSignupForm)
+  .post(wrapAsync(userController.signupUser));
 
-router.post("/signup", wrapAsync(async (req, res) => {
-    try{
-        let { username, email, password } = req.body;
-        const newUser = new User({email, username });
-        const registeredUser = await User.register(newUser, password);
-        req.flash("success", "Welcome to the Basera!");
-        res.redirect("/listings");
-    }catch(e){
-        req.flash("error", e.message);
-        res.redirect("/signup");
-    }
-}));
+//login route
+router
+  .route("/login")
+  .get(userController.renderLoginForm)
+  .post(saveRedirectUrl, passport.authenticate("local", {failureFlash: true, failureRedirect: "/login"}), userController.loginUser);
 
-router.get("/login", (req, res) => {
-    res.render("users/login.ejs");
-});
-
-router.post("/login", passport.authenticate("local", {failureFlash: true, failureRedirect: "/login"}), (req, res) => {
-    req.flash("success", "Welcome Back!");
-    res.redirect("/listings");
-})
-
-router.get("/logout", (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        req.flash("success", "You logged out!");
-        res.redirect("/listings");
-    });
-}); 
-
-
+//logout route
+router
+  .route("/logout")
+  .get(userController.logoutUser); 
 
 module.exports = router;
