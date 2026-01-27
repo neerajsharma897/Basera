@@ -5,8 +5,9 @@ const path = require("path");
 const ejsMate = require('ejs-mate');
 const methodOverride = require("method-override");
 const ExpressErr = require("./utils/ExpressErr.js");
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -15,18 +16,18 @@ const User = require("./models/user.js");
 require('dotenv').config();
 
 main()
-.then(() => {console.log("connected to DB");})
-.catch((err) => {console.log(err);});
+  .then(() => { console.log("connected to DB"); })
+  .catch((err) => { console.log(err); });
 
 async function main() {
   await mongoose.connect(process.env.MONGO_URL);
 }
 
 const sessionOptions = {
-  secret : process.env.secret,
+  secret: process.env.secret,
   resave: false,
-  saveUninitialized : true,
-  cookies:{
+  saveUninitialized: true,
+  cookies: {
     expires: Date.now() * 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
@@ -42,11 +43,15 @@ app.engine("ejs", ejsMate);
 app.use(session(sessionOptions));
 app.use(flash());
 
-app.use(passport.initialize);
-app.use(passport.session);
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
-app.use((req,res,next)=>{
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// we are saving the message in locals which are accessible in all the templates when using req.render
+app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -57,18 +62,19 @@ app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
 
-app.use("/listings", listings)
-app.use("/listings/:id/reviews", reviews)
+app.use("/listings", listingsRouter)
+app.use("/listings/:id/reviews", reviewsRouter)
+app.use("/", userRouter);
 
 
-app.all("*",(req,res,next) => {
+app.all("*", (req, res, next) => {
   throw new ExpressErr(404, "Page not found");
 });
 
 // Error handling middleware
-app.use((err,req,res,next)=>{
-  let {status=404 , message="Something went wrong"} = err;
-  res.status(status).render("listings/error.ejs",{message})
+app.use((err, req, res, next) => {
+  let { status = 404, message = "Something went wrong" } = err;
+  res.status(status).render("listings/error.ejs", { message })
 });
 
 app.listen(8080, () => {

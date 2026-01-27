@@ -1,6 +1,6 @@
-# WanderLust
+# Basera
 
-**WanderLust** is a web-based travel application designed to help users explore and plan trips to various destinations. The app provides travel suggestions, guides, and essential utilities to make trip planning easier and more enjoyable.
+**Basera** is a web-based travel application designed to help users explore and plan trips to various destinations. The app provides travel suggestions, guides, and essential utilities to make trip planning easier and more enjoyable.
 
 ## Features
 
@@ -13,10 +13,10 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/neerajsharma897/WanderLust.git
+   git clone https://github.com/neerajsharma897/Basera.git
 2. Navigate to the project directory:
    ```bash
-   cd WanderLust
+   cd Basera
 3. Install dependencies:
     ```bash
     npm install
