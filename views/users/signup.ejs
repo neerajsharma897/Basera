@@ -1,30 +1,33 @@
 <% layout('/layouts/boilerplate') -%>
 
-<div class="row mt-3">
+<div class="row">
     <div class="col-6  offset-3 ">
-    <form action="/signup" method="POST" class="needs-validation" novalidate>    
-        <h3>Sign Up</h3>
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-            <div class="invalid-feedback">
-                Please enter a username.
-            </div>
+        <div class="form-container" style="border: 1px solid #ddd; border-radius: 1rem; padding: 3rem; margin: 4rem 0; background: #fff;">
+            <h3 class="mb-4">Sign Up</h3>
+            <form action="/signup" method="POST" class="needs-validation" novalidate>    
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                    <div class="invalid-feedback">
+                        Please enter a username.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">
+                        Please enter a email.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="invalid-feedback">
+                        Please enter a password.
+                    </div>
+                </div>
+                <button type="submit" class="btn cus-btn">Sign Up</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-            <div class="invalid-feedback">
-                Please enter a email.
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-            <div class="invalid-feedback">
-                Please enter a password.
-            </div>
-        </div>
-        <button type="submit" class="btn cus-btn">Sign Up</button>
     </div>
 </div>

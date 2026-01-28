@@ -1,51 +1,75 @@
 <% layout('/layouts/boilerplate') -%>
 <body>  
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-8 offset-2"><br>
-            <h3>Create A New Listing</h3>
-            <form method="post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" name="listing[title]" class="form-control" id="title" required>
-                    <div class="invalid-feedback">Title required*</div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea name="listing[description]" class="form-control" rows="4" id="description" required></textarea>
-                    <div class="invalid-feedback">Description required*</div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="image" class="form-label">Upload Image</label>
-                    <input type="file" name="listing[image]" class="form-control" id="image" required>
-                    <div class="invalid-feedback">Image required*</div>
-                </div>
-
-                <div class="row">
-                    <div class="mb-3 col-md-4">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="number" name="listing[price]" class="form-control" id="price" required>
-                        <div class="invalid-feedback">Price required*</div>
+            <div class="form-container" style="border: 1px solid #ddd; border-radius: 1rem; padding: 2rem; background: #fff;">
+                <h3 class="mb-4">Create A New Listing</h3>
+                <form method="post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" name="listing[title]" class="form-control" id="title" required>
+                        <div class="invalid-feedback">Title required*</div>
                     </div>
-    
-                    <div class="mb-3 col-md-8">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" name="listing[location]" class="form-control" id="location" required>
-                        <div class="invalid-feedback">Location required*</div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="listing[description]" class="form-control" rows="4" id="description" required></textarea>
+                        <div class="invalid-feedback">Description required*</div>
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="country" class="form-label">Country</label>
-                    <input type="text" name="listing[country]" class="form-control" id="country" required>
-                    <div class="invalid-feedback">Country required*</div>
-                </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Upload Image</label>
+                        <input type="file" name="listing[image]" class="form-control" id="image" required>
+                        <div class="invalid-feedback">Image required*</div>
+                    </div>
 
-                <button type="submit" class="btn  cus-btn"> Add </button>
-                <a href="/listings" class="btn btn-dark">Cancel</a>
-                <br><br><br>
-            </form>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select name="listing[category]" id="category" class="form-select" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="Beach">Beach</option>
+                            <option value="Mountains">Mountains</option>
+                            <option value="Cities">Cities</option>
+                            <option value="Lakes">Lakes</option>
+                            <option value="Castles">Castles</option>
+                            <option value="Treehouses">Treehouses</option>
+                            <option value="Skiing">Skiing</option>
+                            <option value="Tropical">Tropical</option>
+                            <option value="Safari">Safari</option>
+                            <option value="Desert">Desert</option>
+                            <option value="Camping">Camping</option>
+                            <option value="Farms">Farms</option>
+                            <option value="Boats">Boats</option>
+                            <option value="Arctic">Arctic</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a category.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" name="listing[price]" class="form-control" id="price" required>
+                            <div class="invalid-feedback">Price required*</div>
+                        </div>
+        
+                        <div class="mb-3 col-md-8">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="listing[location]" class="form-control" id="location" required>
+                            <div class="invalid-feedback">Location required*</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="listing[country]" class="form-control" id="country" required>
+                        <div class="invalid-feedback">Country required*</div>
+                    </div>
+
+                    <button type="submit" class="btn cus-btn">Add</button>
+                    <a href="/listings" class="btn btn-dark">Cancel</a>
+                </form>
+            </div>
+            <br><br>
         </div>
     </div>
 </body> 

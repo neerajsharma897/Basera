@@ -1,21 +1,38 @@
-<nav class="navbar navbar-expand-sm bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><i class="fa-regular fa-compass"></i>&nbsp;Basera</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" >
+      <a class="navbar-brand" href="/listings">
+        <i class="fa-regular fa-compass"></i>
+        <span class="brand-text">Basera</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link "  href="/">Home</a>
-          <a class="nav-link" href="/listings">All Listings</a>
-          <a class="nav-link" href="/listings/new">Add Listing</a>
+        <div class="navbar-nav nav-center">
+          <a class="nav-link" href="/listings">
+            <i class="fa-solid fa-magnifying-glass d-md-none"></i>
+            <span>Explore</span>
+          </a>
         </div>
-        <div class="navbar-nav ms-auto">
+        <div class="navbar-nav ms-auto nav-right">
+          <a class="nav-link add-listing-link" href="/listings/new">
+            <i class="fa-solid fa-plus d-md-none"></i>
+            <span>Add Listing</span>
+          </a>
           <% if(!currentUser){ %>
-          <a class="nav-link "  href="/signup">Sign up</a>
-          <a class="nav-link" href="/login">Log in</a>
+          <a class="nav-link btn-signup" href="/signup">
+            <i class="fa-solid fa-user-plus d-md-none"></i>
+            <span>Sign up</span>
+          </a>
+          <a class="nav-link btn-login" href="/login">
+            <i class="fa-solid fa-right-to-bracket d-md-none"></i>
+            <span>Log in</span>
+          </a>
           <% } else { %>
-          <a class="nav-link" href="/logout">Log out</a>
+          <a class="nav-link user-menu" href="/logout">
+            <span>Log out</span>
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
           <% } %>
         </div>
       </div>

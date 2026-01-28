@@ -1,19 +1,112 @@
 <% layout('/layouts/boilerplate') -%>
-    <h2> All Listings </h2><br>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+
+    <div id="filters-wrapper">
+        <div id="filters">
+            <a href="/listings" class="filter <%= !currentCategory ? 'active' : '' %>">
+                <div><i class="fa-solid fa-border-all"></i></div>
+                <p>All</p>
+            </a>
+            <a href="/listings?category=Beach" class="filter <%= currentCategory === 'Beach' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                <p>Beach</p>
+            </a>
+            <a href="/listings?category=Mountains" class="filter <%= currentCategory === 'Mountains' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p>Mountains</p>
+            </a>
+            <a href="/listings?category=Cities" class="filter <%= currentCategory === 'Cities' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-city"></i></div>
+                <p>Cities</p>
+            </a>
+            <a href="/listings?category=Lakes" class="filter <%= currentCategory === 'Lakes' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-water"></i></div>
+                <p>Lakes</p>
+            </a>
+            <a href="/listings?category=Castles" class="filter <%= currentCategory === 'Castles' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-chess-rook"></i></div>
+                <p>Castles</p>
+            </a>
+            <a href="/listings?category=Treehouses" class="filter <%= currentCategory === 'Treehouses' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-tree"></i></div>
+                <p>Treehouses</p>
+            </a>
+            <a href="/listings?category=Skiing" class="filter <%= currentCategory === 'Skiing' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-person-skiing"></i></div>
+                <p>Skiing</p>
+            </a>
+            <a href="/listings?category=Tropical" class="filter <%= currentCategory === 'Tropical' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-sun"></i></div>
+                <p>Tropical</p>
+            </a>
+            <a href="/listings?category=Safari" class="filter <%= currentCategory === 'Safari' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-hippo"></i></div>
+                <p>Safari</p>
+            </a>
+            <a href="/listings?category=Desert" class="filter <%= currentCategory === 'Desert' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-sun-plant-wilt"></i></div>
+                <p>Desert</p>
+            </a>
+            <a href="/listings?category=Camping" class="filter <%= currentCategory === 'Camping' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </a>
+            <a href="/listings?category=Farms" class="filter <%= currentCategory === 'Farms' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-tractor"></i></div>
+                <p>Farms</p>
+            </a>
+            <a href="/listings?category=Boats" class="filter <%= currentCategory === 'Boats' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-sailboat"></i></div>
+                <p>Boats</p>
+            </a>
+            <a href="/listings?category=Arctic" class="filter <%= currentCategory === 'Arctic' ? 'active' : '' %>">
+                <div><i class="fa-solid fa-snowflake"></i></div>
+                <p>Arctic</p>
+            </a>
+        </div>
+
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                <label class="form-check-label" for="switchCheckDefault">Display Total after Taxes</label>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
         <% for(let listing of Listings) { %>
         <a href="/listings/<%= listing._id %>" class="listing-link">
         <div class="listing-card card" >
             <img src="<%= listing.image.url %>" class="card-img-top" alt="img" style="height: 18rem;">
             <div class="card-img-overlay"></div>
             <div class="card-body">
-            <p class="card-text">
-                <b><%= listing.title %> </b><br>
-                <%= listing.location %> <br>
-                <b>&#8377;<%= listing.price.toLocaleString("en-IN") %></b> / night <br>
+            <p class="card-text" >
+                <b><%= listing.title %> </b>
+                <br>
+                <span class="price-without-tax" style="font-size: 0.9rem; color: #434343;" >
+                    &#8377;<%= listing.price.toLocaleString("en-IN") %> / night
+                </span>
+                <span class="price-with-tax" style="display: none; font-size: 0.9rem; color: #434343;">
+                    &#8377;<%= Math.round(listing.price * 1.18).toLocaleString("en-IN") %> / night
+                    <span class="tax-info">&nbsp;(incl. 18% GST)</span>
+                </span>
             </p>
             </div>
         </div>
         </a>
         <% } %>
     </div>
+
+    <script>
+        const taxSwitch = document.getElementById("switchCheckDefault");
+        taxSwitch.addEventListener("change", () => {
+            const pricesWithoutTax = document.querySelectorAll(".price-without-tax");
+            const pricesWithTax = document.querySelectorAll(".price-with-tax");
+            
+            if(taxSwitch.checked) {
+                pricesWithoutTax.forEach(el => el.style.display = "none");
+                pricesWithTax.forEach(el => el.style.display = "inline");
+            } else {
+                pricesWithoutTax.forEach(el => el.style.display = "inline");
+                pricesWithTax.forEach(el => el.style.display = "none");
+            }
+        });
+    </script>

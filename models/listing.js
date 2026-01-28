@@ -7,14 +7,26 @@ const listingSchema = new Schema({
     type: String,
     required: true,
   },
-  description: String,
+  description: {
+    type: String,
+    required: true,
+  },
   image: {
     url: String,
     filename: String,
   },
-  price: Number,
-  location: String,
-  country: String,
+  price: {
+    type: Number,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
@@ -25,6 +37,26 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
+  },
+  category: {
+    type: String,
+    enum: [
+      "Beach",
+      "Mountains",
+      "Cities",
+      "Lakes",
+      "Castles",
+      "Treehouses",
+      "Skiing",
+      "Tropical",
+      "Safari",
+      "Desert",
+      "Camping",
+      "Farms",
+      "Boats",
+      "Arctic",
+    ],
+    default: "Beach",
   },
 });
 
