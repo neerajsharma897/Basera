@@ -10,7 +10,10 @@ module.exports.renderListingForm = (req, res) => {
 }
 
 module.exports.createListing = async (req, res) => {
+  const url = req.file.path;
+  const filename = req.file.filename;
   const newListing = new Listing(req.body.listing);
+  newListing.image = { url, filename };
   newListing.owner = req.user._id;
   await newListing.save();
   req.flash("success", "New Listing Created");
@@ -42,14 +45,31 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+  
+  if (!listing) {
+    req.flash("error", "Listing you requested doesn't exist");
+    return res.redirect("/listings");
+  }
+  
+  if (req.file) {
+    listing.image = { url: req.file.path, filename: req.file.filename };
+    await listing.save();
+  }
+  
   req.flash("success", "Listing Updated");
   res.redirect(`/listings/${id}`);
 }
 
 module.exports.deleteListing = async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndDelete(id);
-  req.flash("success", " Listing Deleted");
+  const listing = await Listing.findByIdAndDelete(id);
+  
+  if (!listing) {
+    req.flash("error", "Listing you requested doesn't exist");
+    return res.redirect("/listings");
+  }
+  
+  req.flash("success", "Listing Deleted");
   res.redirect("/listings");
 }
