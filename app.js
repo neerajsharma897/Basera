@@ -1,6 +1,4 @@
-if(process.env.NODE_ENV !== "production"){
-  require('dotenv').config();
-}
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
@@ -18,23 +16,31 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const logger = require("./utils/logger.js");
 
 
 main()
-  .then(() => { console.log("connected to DB"); })
-  .catch((err) => { console.log(err); });
+  .then(() => { logger.info("Connected to MongoDB"); })
+  .catch((err) => { logger.error("MongoDB connection failed", err); });
 
 async function main() {
-  // await mongoose.connect(process.env.MONGO_URL); for local hosting
-  await mongoose.connect(process.env.ATLASDB_URL);
+  const dbUrl = process.env.ATLASDB_URL || process.env.MONGO_URL;
+  if (!dbUrl) {
+    throw new Error("Missing database URL. Set ATLASDB_URL or MONGO_URL in .env");
+  }
+  await mongoose.connect(dbUrl);
 }
 
 const mongoStore = MongoStore.create({
-  mongoUrl: process.env.ATLASDB_URL,
+  mongoUrl: process.env.ATLASDB_URL || process.env.MONGO_URL,
   crypto:{
     secret: process.env.SECRET
   },
   touchAfter: 24 * 60 * 60
+});
+
+mongoStore.on("error", (err) => {
+  logger.error("Mongo session store error", err);
 });
 
 const sessionOptions = {
@@ -86,9 +92,18 @@ app.all("*", (req, res, next) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   let { status = 404, message = "Something went wrong" } = err;
+  logger.error("Unhandled request error", {
+    status,
+    message,
+    method: req.method,
+    url: req.originalUrl,
+    stack: err.stack,
+  });
   res.status(status).render("listings/error.ejs", { message })
 });
 
-app.listen(8080, () => {
-  console.log("server is listening to port 8080");
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  logger.info(`Server is listening on port ${PORT}`);
 });

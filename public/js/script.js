@@ -16,3 +16,19 @@
       }, false)
     })
   })()
+
+document.querySelectorAll('[data-password-toggle="button"]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const targetId = button.getAttribute('data-target-id')
+    const passwordInput = document.getElementById(targetId)
+
+    if (!passwordInput) {
+      return
+    }
+
+    const isHidden = passwordInput.type === 'password'
+    passwordInput.type = isHidden ? 'text' : 'password'
+    button.textContent = isHidden ? 'Hide' : 'Show'
+    button.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password')
+  })
+})

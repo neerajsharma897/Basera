@@ -19,7 +19,7 @@
             <i class="fa-solid fa-plus d-md-none"></i>
             <span>Add Listing</span>
           </a>
-          <% if(!currentUser){ %>
+          <% if(typeof currentUser === 'undefined' || !currentUser){ %>
           <a class="nav-link btn-signup" href="/signup">
             <i class="fa-solid fa-user-plus d-md-none"></i>
             <span>Sign up</span>

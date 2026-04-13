@@ -14,7 +14,10 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" required data-password-toggle="target">
+                        <button class="btn btn-outline-secondary" type="button" data-password-toggle="button" data-target-id="password" aria-label="Show password">Show</button>
+                    </div>
                 </div>
                 <button type="submit" class="btn cus-btn">Login</button>
             </form>
